@@ -2,6 +2,7 @@ import { bloomLevelModel } from "../../../DB/model/bloomLevel.model.js";
 import axios from "axios";
 import { qbankModel } from "../../../DB/model/qbank.model.js";
 import { studentModel } from "../../../DB/model/student.model.js";
+import { DomainModel } from "../../../DB/model/Domain.model.js";
 
 export const addStudent = async (req, res) => {
     try {
@@ -12,7 +13,7 @@ export const addStudent = async (req, res) => {
     } catch (error) {
         res.json({ message: "error", error })
         console.log(error);
-    }
+    }git
 };
 export const getStudent = async (req, res) => {
     const { studentName } = req.params
@@ -30,14 +31,14 @@ export const getStudent = async (req, res) => {
 
 export const studentQuestion = async (req, res) => {
     const { GPDK, KolbStyle } = req.params
-    const{bloomLevel}=req.body
+    const { bloomLevel } = req.body
     let question
-    let {data:{Category}} = await axios.get(`http://localhost:3000/api/v1/bloomLevel/getActivityCategories/${bloomLevel}`)
+    let { data: { Category } } = await axios.get(`http://localhost:3000/api/v1/bloomLevel/getActivityCategories/${bloomLevel}`)
     console.log(Category);
     if (KolbStyle == "Divergent") {
         try {
             if (GPDK == "Beginner") {
-                question = await qbankModel.findOne({ $or: [{ complexity: 0 }, { complexity: 1 }] })
+                question = await qbankModel.findOne({ $or: [{ complexity: 1 }, { complexity: 2 }] })
                 // console.log(question);
 
                 res.json({ message: `${question.questionStyle}. Present your answer using examples and images` })
@@ -45,7 +46,7 @@ export const studentQuestion = async (req, res) => {
 
 
             } else if (GPDK == "Intermediate") {
-                question = await qbankModel.findOne({ complexity: 2 })
+                question = await qbankModel.findOne({ $or: [{ complexity: 3 }, { complexity: 4 }] })
                 // console.log(question);
                 res.json({ message: `${question.questionStyle}. Present your answer using examples and images` })
 
@@ -53,13 +54,12 @@ export const studentQuestion = async (req, res) => {
 
             }
             else if (GPDK == "Excellent") {
-                question = await qbankModel.find({ complexity: 3 })
-                for (let qNum = 0; qNum < question.length; qNum++) {
-                    const element = question[qNum];
-                    res.json({ message: `${question[qNum].questionStyle}. Present your answer using examples and images` })
-                }
+                question = await qbankModel.findOne({ $or: [{ complexity: 5 }, { complexity: 6 }] })
+                console.log(question);
+                res.json({ message: `${question.questionStyle}. Present your answer using examples and images` })
+            }
 
-            } else {
+            else {
                 res.json({ message: "Not found" })
             }
 
@@ -72,27 +72,22 @@ export const studentQuestion = async (req, res) => {
     } else if (KolbStyle == "Assimilator") {
         try {
             if (GPDK == "Beginner") {
-                question = await qbankModel.findOne({ $or: [{ complexity: 0 }, { complexity: 1 }] })
+                question = await qbankModel.findOne({ $or: [{ complexity: 1 }, { complexity: 2 }] })
                 console.log(question);
 
                 res.json({ message: `${question.questionStyle}. Present your answer in an organized shape like a table` })
 
 
             } else if (GPDK == "Intermediate") {
-                question = await qbankModel.find({ complexity: 2 })
-                for (let qNum = 0; qNum < question.length; qNum++) {
-                    const element = question[qNum];
-                    res.json({ message: `${question[qNum].questionStyle}. Present your answer in an organized shape like a table` })
-                }
+                question = await qbankModel.findOne({ $or: [{ complexity: 3 }, { complexity: 4 }] })
 
+                res.json({ message: `${question.questionStyle}. Present your answer in an organized shape like a table` })
 
             }
             else if (GPDK == "Excellent") {
-                question = await qbankModel.find({ complexity: 3 })
-                for (let qNum = 0; qNum < question.length; qNum++) {
-                    const element = question[qNum];
-                    res.json({ message: `${question[qNum].questionStyle}. Present your answer in an organized shape like a table` })
-                }
+                question = await qbankModel.findOne({ $or: [{ complexity: 5 }, { complexity: 6 }] })
+                res.json({ message: `${question.questionStyle}. Present your answer in an organized shape like a table` })
+
 
             } else {
                 res.json({ message: "Not found" })
@@ -107,27 +102,23 @@ export const studentQuestion = async (req, res) => {
         try {
             if (GPDK == "Beginner") {
 
-                question = await qbankModel.findOne({ $or: [{ complexity: 0 }, { complexity: 1 }] })
+                question = await qbankModel.findOne({ $or: [{ complexity: 1 }, { complexity: 2 }] })
                 console.log(question);
 
-                res.json({ message: `${question.questionStyle}.Present your answer as an organized shape. Describe your experiment together with your conclusion` })
+                res.json({ message: `${question.questionStyle}.Present your answer as an organized shape.${DomainModel} ` })
 
 
             } else if (GPDK == "Intermediate") {
-                question = await qbankModel.find({ complexity: 2 })
-                for (let qNum = 0; qNum < question.length; qNum++) {
-                    const element = question[qNum];
-                    res.json({ message: `${question[qNum].questionStyle}. Present your answer as an organized shape. Describe your experiment together with your conclusion` })
-                }
+                question = await qbankModel.findOne({ $or: [{ complexity: 3 }, { complexity: 4 }] })
+                res.json({ message: `${question.questionStyle}. Present your answer as an organized shape. Describe your experiment together with your conclusion` })
+
 
 
             }
             else if (GPDK == "Excellent") {
-                question = await qbankModel.find({ complexity: 3 })
-                for (let qNum = 0; qNum < question.length; qNum++) {
-                    const element = question[qNum];
-                    res.json({ message: `${question[qNum].questionStyle}. Present your answer as an organized shape. Describe your experiment together with your conclusion` })
-                }
+                question = await qbankModel.findOne({ $or: [{ complexity: 5 }, { complexity: 6 }] })
+                res.json({ message: `${question.questionStyle}. Present your answer as an organized shape. Describe your experiment together with your conclusion` })
+
 
             } else {
                 res.json({ message: "Not found" })
@@ -141,27 +132,24 @@ export const studentQuestion = async (req, res) => {
     } else if (KolbStyle == "Accommodator") {
         try {
             if (GPDK == "Beginner") {
-                question = await qbankModel.findOne({ $or: [{ complexity: 0 }, { complexity: 1 }] })
+                question = await qbankModel.findOne({ $or: [{ complexity: 1 }, { complexity: 2 }] })
                 console.log(question);
 
                 res.json({ message: `${question.questionStyle}.Present your answer as a recorded video/audio that explain your opinion` })
 
 
             } else if (GPDK == "Intermediate") {
-                question = await qbankModel.find({ complexity: 2 })
-                for (let qNum = 0; qNum < question.length; qNum++) {
-                    const element = question[qNum];
-                    res.json({ message: `${question[qNum].questionStyle}. Present your answer as a recorded video/audio that explain your opinion` })
-                }
+                question = await qbankModel.findOne({ $or: [{ complexity: 3 }, { complexity: 4 }] })
+
+                res.json({ message: `${question.questionStyle}. Present your answer as a recorded video/audio that explain your opinion` })
+
 
 
             }
             else if (GPDK == "Excellent") {
-                question = await qbankModel.find({ complexity: 3 })
-                for (let qNum = 0; qNum < question.length; qNum++) {
-                    const element = question[qNum];
-                    res.json({ message: `${question[qNum].questionStyle}. Present your answer as a recorded video/audio that explain your opinion` })
-                }
+                question = await qbankModel.findOne({ $or: [{ complexity: 5 }, { complexity: 6 }] })
+                res.json({ message: `${question.questionStyle}. Present your answer as a recorded video/audio that explain your opinion` })
+
 
             } else {
                 res.json({ message: "Not found" })

@@ -7,7 +7,8 @@ const qSchema = new Schema({
     subDomain: { type: String },
     concept: { type: String },
     answerFormat:{type:String},
-    ActivityCategories:{type:String}
+    ActivityCategories:{type:String},
+    lessonName:{type:String}
     // reciverId: { type: Types.ObjectId, ref: 'Student', required: true }
 
 
