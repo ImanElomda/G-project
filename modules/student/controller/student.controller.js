@@ -13,7 +13,7 @@ export const addStudent = async (req, res) => {
     } catch (error) {
         res.json({ message: "error", error })
         console.log(error);
-    }git
+    } git
 };
 export const getStudent = async (req, res) => {
     const { studentName } = req.params
@@ -31,10 +31,14 @@ export const getStudent = async (req, res) => {
 
 export const studentQuestion = async (req, res) => {
     const { GPDK, KolbStyle } = req.params
-    const { bloomLevel } = req.body
+    const { bloomLevel, domain, subDomain } = req.body
     let question
     let { data: { Category } } = await axios.get(`http://localhost:3000/api/v1/bloomLevel/getActivityCategories/${bloomLevel}`)
-    console.log(Category);
+
+    let { data: { answerFormat } } = await axios.get(`http://localhost:3000/api/v1/domain/getAnswerFormat/${domain}/${subDomain}`)
+    console.log(answerFormat);
+
+    // console.log(Category);
     if (KolbStyle == "Divergent") {
         try {
             if (GPDK == "Beginner") {
@@ -105,19 +109,19 @@ export const studentQuestion = async (req, res) => {
                 question = await qbankModel.findOne({ $or: [{ complexity: 1 }, { complexity: 2 }] })
                 console.log(question);
 
-                res.json({ message: `${question.questionStyle}.Present your answer as an organized shape.${DomainModel} ` })
+                res.json({ message: `${question.questionStyle}.Present your answer as an organized shape. ${answerFormat}` })
 
 
             } else if (GPDK == "Intermediate") {
                 question = await qbankModel.findOne({ $or: [{ complexity: 3 }, { complexity: 4 }] })
-                res.json({ message: `${question.questionStyle}. Present your answer as an organized shape. Describe your experiment together with your conclusion` })
+                res.json({ message: `${question.questionStyle}. Present your answer as an organized shape. ${answerFormat}` })
 
 
 
             }
             else if (GPDK == "Excellent") {
                 question = await qbankModel.findOne({ $or: [{ complexity: 5 }, { complexity: 6 }] })
-                res.json({ message: `${question.questionStyle}. Present your answer as an organized shape. Describe your experiment together with your conclusion` })
+                res.json({ message: `${question.questionStyle}. Present your answer as an organized shape. ${answerFormat}` })
 
 
             } else {
@@ -128,6 +132,7 @@ export const studentQuestion = async (req, res) => {
         }
         catch (error) {
             res.json({ message: "catch error", error })
+            console.log(error);
         }
     } else if (KolbStyle == "Accommodator") {
         try {

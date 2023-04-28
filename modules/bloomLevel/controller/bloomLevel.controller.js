@@ -2,8 +2,8 @@ import { bloomLevelModel } from "../../../DB/model/bloomLevel.model.js";
 
 export const addBloomLevel = async (req, res) => {
     try {
-        const { bloomLevel, ActivityCategories } = req.body;
-        const BloomLevel = new bloomLevelModel({ bloomLevel, ActivityCategories })
+        const { bloomLevel, activityCategories } = req.body;
+        const BloomLevel = new bloomLevelModel({ bloomLevel, activityCategories })
         const savedBloomLeve = await BloomLevel.save()
         res.json({ message: "Done", savedBloomLeve })
     } catch (error) {
@@ -14,7 +14,7 @@ export const addBloomLevel = async (req, res) => {
 
 export const getActivityCategories = async (req, res) => {
     const { bloomLevel } = req.params
-    const { ActivityCategories: [Category] } = await bloomLevelModel.findOne({ bloomLevel }).select('ActivityCategories')
+    const { activityCategories: [Category] } = await bloomLevelModel.findOne({ bloomLevel }).select('activityCategories')
     if (!Category) {
         res.status(500).json({ message: "error" })
     } else {

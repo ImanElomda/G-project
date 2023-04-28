@@ -14,6 +14,7 @@ app.use(`${baseUrl}/lesson`,indexRouter.lessonRouter)
 app.use(`${baseUrl}/qbank`,indexRouter.qbankRouter)
 app.use(`${baseUrl}/bloomLevel`,indexRouter.bloomLevelRouter)
 app.use(`${baseUrl}/domain`,indexRouter.domainRouter)
+app.use(`${baseUrl}/KolbStyle`,indexRouter.KolbStyleRouter)
 
 app.use("*",(req,res)=>{
     res.json({message:"in-valid Routing"})

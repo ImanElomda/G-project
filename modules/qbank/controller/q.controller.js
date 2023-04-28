@@ -2,8 +2,8 @@ import { qbankModel } from "../../../DB/model/qbank.model.js";
 
 export const addQuestion = async (req, res) => {
     try {
-        const { questionStyle, complexity, domain, subDomain, concept } = req.body;
-        const Myquestion = new qbankModel({ questionStyle, complexity,domain, subDomain, concept  })
+        const { questionStyle, complexity, domain, subDomain, concept, activityCategories, lessonNumber } = req.body;
+        const Myquestion = new qbankModel({ questionStyle, complexity, domain, subDomain, concept, activityCategories, lessonNumber })
         const savedquestion = await Myquestion.save()
         res.json({ message: "Done", savedquestion })
     } catch (error) {
@@ -50,15 +50,13 @@ export const addQuestion = async (req, res) => {
 // }
 
 
-export const getQuestion = async (req, res) => {
-    const { complexity } = req.params
-    const question1 = await qbankModel.findOne({ complexity })
-    if (!question1) {
-        res.status(500).json({ message: "error" })
-    } else {
-        res.json({ message: `${question1.questionStyle}` })
-        // res.json({ message: `Compare between ${question1.c1} and ${question1.c2}` })
+export const getQuestionWithAnswer = async (req, res, next) => {
+    try {
+        const { domain,subDomain,concept,activityCategories,lessonNumber,complexity } = req.body;
+        const questionAndAnswer = await questionModel.find({ domain,subDomain,concept,activityCategories,lessonNumber,complexity }).select("questionStyle answer")
+        return res.json({ message: "Done", questionAndAnswer })
+    } catch (error) {
+        res.json({ message: `Catch Error ${error}` })
     }
-
 
 }

@@ -16,24 +16,18 @@ export const getAnswerFormat = async (req, res) => {
 
     const { domain, subDomain } = req.params
     try {
-        const subDomain1 = await DomainModel.find({ domain }).select('subDomain')
-        console.log(subDomain1);
-        if (!subDomain1.subDomain == "null") {
-            const answerFormat = await DomainModel.findOne(subDomain).select('answerFormat')
-            if (!answerFormat) {
-                res.status(500).json({ message: "error" })
-            } else {
-                res.json({ message: "Done", answerFormat })
-            }
+
+        const subDomain1 = await DomainModel.findOne
+        ({ $or: [{ domain, subDomain: { $in: [subDomain] } },{domain,subDomain:[]}] })
+        if (!subDomain1) {
+            res.json({ message: "in-valid" })
         } else {
-            const answerFormat = await DomainModel.find({ domain }).select('answerFormat')
-            if (!answerFormat) {
-                res.status(500).json({ message: "error" })
-            } else {
-                res.json({ message: "Done", answerFormat })
-            }
+            res.status(200).json({ message: "Done", answerFormat: subDomain1.answerFormat })
+            console.log(subDomain1.answerFormat);
         }
-    } catch (error) {
+
+    }
+    catch (error) {
         res.json({ message: "error Catch", error })
     }
 }

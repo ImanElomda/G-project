@@ -2,7 +2,7 @@ import { Schema, model, Types } from "mongoose";
 
 const bloomLevelSchema = new Schema({
     bloomLevel: { type: String},
-    ActivityCategories: {type:Array},
+    activityCategories: {type:Array},
    
 }, {
     timestamps: true
