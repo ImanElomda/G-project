@@ -1,7 +1,7 @@
 import { Schema, model, Types } from "mongoose";
 
 const lessonSchema = new Schema({
-    lessonNumber: { type: String, required: true },
+    currentLesson: { type: String, required: true },
     concepts: {type:String},
     bloomLevel:{type:String},
     studentNum:{ type: Types.ObjectId, ref: 'Student', required: true}
