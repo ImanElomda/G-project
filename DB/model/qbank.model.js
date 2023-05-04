@@ -29,10 +29,10 @@ const qSchema = new Schema({
     indecators:{
         type: Number
     },
-    // currentLesson: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "lessons"
-    // }
+    currentLesson: {
+        type: Schema.Types.ObjectId,
+        ref: "lessons"
+    }
 }, {
     timestamps: true
 }

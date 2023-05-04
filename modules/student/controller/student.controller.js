@@ -63,7 +63,7 @@ export const getStudent = async (req, res) => {
 
 export const studentQuestion = async (req, res) => {
     const { GPDK, KolbStyle } = req.params
-    const { bloomLevel, domain, subDomain } = req.body
+    const { bloomLevel, domain, subDomain, currentLesson } = req.body
 
 
     let question
@@ -87,7 +87,7 @@ export const studentQuestion = async (req, res) => {
                 // console.log(question);
                 console.log("in beginner divergent");
                 // console.log(activityCategories);
-                question = await qbankModel.findOne({complexity: {$in: [1,2]}, indecators: indecators[0], activityCategories: activityCategories})
+                question = await qbankModel.findOne({complexity: {$in: [1,2]}, indecators: indecators[0], activityCategories: activityCategories, currentLesson: currentLesson})
                 // console.log(question);
                 res.json({ message: `${question.questionStyle}. Present your answer using examples and images` })
 
