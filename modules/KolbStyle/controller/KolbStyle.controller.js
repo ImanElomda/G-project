@@ -1,6 +1,4 @@
 import { KolbStyleModel } from "../../../DB/model/KolbStyle.model.js";
-
-
 export const addKolbStyle = async (req, res) => {
     try {
         const { character, learning_styles } = req.body;
@@ -12,33 +10,28 @@ export const addKolbStyle = async (req, res) => {
         console.log(error);
     }
 };
-// export const getLearninStyle = async (req, res) => {
-//     try {
-//         const { character} = req.body;
-//         const learning_styles = await KolbStyleModel.find({character}).select('learning_styles -_id')
-//         if (learning_styles) {
-//                console.log(learning_styles);
-//         } else {
-//             console.log(errorrrr);
-//         }
 
-//     } catch (error) {
-//         res.json({ message: "error", error })
-//         console.log(error);
-//     }
-// };
-export const getLesssonNumber = async (req, res) => {
-    const { character } = req.body
-    const style = await KolbStyleModel.findOne({ character }).select('learning_styles')
-    if (!style) {
+
+export const getIndecators = async (req, res) => {
+    const { character } = req.params
+    const KolbStyle = await KolbStyleModel.findOne({character })
+    if (!KolbStyle) {
         res.status(500).json({ message: "error" })
     } else {
-        res.json({ message: "Done", learning_styles: style.learning_styles })
-        if (style.learning_styles == "direct") {
-               lessonNumber=[currentLesson,currentLesson]
-        } else {
-
+        const learning_styles =KolbStyle.learning_styles
+        const indecators =[]
+        if(learning_styles.length === 1){
+            indecators.push(0);
+        }else if(learning_styles.length === 2){
+            indecators.push(0, -1);
+        }else if(learning_styles.length === 3){
+            indecators.push(0, -1, 1)
+        }else{
+            res.status(404).json({ message: "error" })
         }
+        res.json({ message: "Done", indecators })
+
     }
 
 }
+

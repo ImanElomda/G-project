@@ -18,7 +18,7 @@ export const getAnswerFormat = async (req, res) => {
     try {
 
         const subDomain1 = await DomainModel.findOne
-        ({ $or: [{ domain, subDomain: { $in: [subDomain] } },{domain,subDomain:[]}] })
+            ({ $or: [{ domain, subDomain: { $in: [subDomain] } }, { domain, subDomain: [] }] })
         if (!subDomain1) {
             res.json({ message: "in-valid" })
         } else {

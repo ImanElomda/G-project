@@ -4,7 +4,7 @@ import express from 'express'
 import mongoose from "mongoose"
 import connectDB from './DB/connection.js'
 const app = express()
-const port = 3000
+const port = 8000
 import * as indexRouter from './modules/index.route.js'
 const baseUrl = process.env.baseUrl
 app.use(express.json())

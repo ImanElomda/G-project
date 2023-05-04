@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, Types, Mongoose } from "mongoose";
 
 const qSchema = new Schema({
     questionStyle: {
@@ -25,7 +25,14 @@ const qSchema = new Schema({
     },
     complexity: {
         type: Number,
-    }
+    },
+    indecators:{
+        type: Number
+    },
+    // currentLesson: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "lessons"
+    // }
 }, {
     timestamps: true
 }
